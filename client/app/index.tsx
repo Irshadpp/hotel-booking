@@ -46,7 +46,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f2f2f2', 
   },
   innerContainer: {
     width: '100%',
@@ -90,7 +89,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   button: {
-    backgroundColor: '#6a11cb', 
+    backgroundColor: '#5fa35f', 
     padding: 15,
     borderRadius: 10,
     alignItems: 'center',

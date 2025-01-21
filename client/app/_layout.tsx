@@ -5,7 +5,7 @@ import { Slot } from 'expo-router';
 export default function Layout() {
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#2575fc" />
+      <StatusBar barStyle="light-content" backgroundColor="#5fa35f" /> {/* Green status bar */}
       <View style={styles.header}>
         <Text style={styles.headerText}>Hotel Booking App</Text>
       </View>
@@ -20,10 +20,10 @@ export default function Layout() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f2f2f2', // Light background for the whole app
+    backgroundColor: '#f1f8f3', // Light greenish background for the whole app
   },
   header: {
-    backgroundColor: '#2575fc',
+    backgroundColor: '#5fa35f', 
     paddingVertical: 15,
     paddingHorizontal: 20,
     alignItems: 'center',
@@ -37,10 +37,10 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 22,
     fontWeight: 'bold',
-    color: '#fff',
+    color: '#fff', 
   },
   content: {
     flex: 1,
-    padding: 20, // Add consistent padding for all screens
+    paddingHorizontal: 20, // Add consistent padding for all screens
   },
 });
