@@ -28,7 +28,6 @@ export const createUser = async (
   try {
     const { email } = req.body;
     const existingUser = await userService.findUserByEmail(email);
-    console.log(existingUser);
     if (existingUser) {
       throw new BadRequestError("User already exists in this email!");
     }
@@ -95,7 +94,8 @@ export const newToken = async (
   next: NextFunction
 ) => {
   try {
-    const refreshToken = req.cookies.refreshToken;
+    const refreshToken = req.headers.authorization?.split(" ")[1];
+    console.log(refreshToken)
     if (!refreshToken) {
       throw new NotAuthorizedError();
     }
@@ -111,8 +111,6 @@ export const newToken = async (
     };
     const accessSecret = process.env.JWT_ACCESS_SECRET;
     const newAccessToken = generateJwtAccessToken(payload, accessSecret!);
-
-    // setCookie(res, "accessToken", newAccessToken, { maxAge: 30 * 60 * 1000 });
 
     sendResponse(res, HttpStatusCode.OK, CommonMessages.SUCCESS, {
       accessToken: newAccessToken,
