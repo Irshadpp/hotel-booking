@@ -21,6 +21,16 @@ const hotelSchema: Schema<IHotel> = new mongoose.Schema(
       required: true,
     },
   },
+  {
+    toJSON: {
+      virtuals: true,
+      transform(doc, ret) {
+        ret.id = ret._id;
+        delete ret._id;
+        delete ret.__v;
+      },
+    },
+  }
 );
 
 const Hotel: Model<IHotel> = mongoose.model<IHotel>('Hotel', hotelSchema);

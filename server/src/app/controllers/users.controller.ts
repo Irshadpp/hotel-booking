@@ -3,7 +3,6 @@ import {
   BadRequestError,
   ForbiddenError,
   NotAuthorizedError,
-  NotFoundError,
 } from "../errors";
 
 import {

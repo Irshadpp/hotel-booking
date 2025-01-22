@@ -1,7 +1,6 @@
 import express, { Router } from "express";
 import { validateRequest } from "../middlewares/validate-request";
 import { loginUserValidator } from "../validators/login-user.validator";
-import { requireAuth } from "../middlewares/require-auth";
 import { createUser, loginUser, newToken } from "../controllers/users.controller";
 import { createUserValidator } from "../validators/create-user.validator";
 
