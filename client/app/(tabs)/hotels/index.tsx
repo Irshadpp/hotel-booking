@@ -10,8 +10,9 @@ import {
   Button,
 } from "react-native";
 import { Calendar } from "react-native-calendars";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-// Mock data for hotels (this would be fetched from an API in a real app)
+// Mock data for hotels
 const mockHotels = [
   {
     id: 1,
@@ -46,7 +47,7 @@ const mockHotels = [
     name: "Hotel Epsilon",
     location: "Sydney",
     price: "$220/night",
-    availableDates: [], // No availability
+    availableDates: [], 
   },
   {
     id: 6,
@@ -64,18 +65,17 @@ const mockHotels = [
   },
 ];
 
-const itemsPerPage = 3; // Number of items to load at a time
+const itemsPerPage = 3; 
 
 export default function HotelListingPage() {
   const [hotels, setHotels] = useState<any>([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [filter, setFilter] = useState("all"); // 'all' or 'available'
+  const [filter, setFilter] = useState("all"); 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [startDate, setStartDate] = useState<string | null>(null);
   const [endDate, setEndDate] = useState<string | null>(null);
 
-  // Function to simulate data fetching
   const fetchHotels = () => {
     setLoading(true);
     setTimeout(() => {
@@ -103,7 +103,6 @@ export default function HotelListingPage() {
     });
   };
 
-  // Fetch hotels when the component mounts or the current page changes
   useEffect(() => {
     fetchHotels();
   }, [currentPage]);
@@ -148,24 +147,42 @@ export default function HotelListingPage() {
   return (
     <View style={styles.container}>
       {/* Filter buttons */}
+      <SafeAreaView style={styles.safeArea}>
       <View style={styles.filterContainer}>
         <TouchableOpacity
-          style={[styles.filterButton, filter === "all" && styles.selectedButtonAll]}
+          style={[
+            styles.filterButton,
+            filter === "all" && styles.selectedButtonAll,
+          ]}
           onPress={() => toggleFilter("all")}
         >
-          <Text style={[styles.filterButtonText, filter === "all" && styles.selectedText]}>
+          <Text
+            style={[
+              styles.filterButtonText,
+              filter === "all" && styles.selectedText,
+            ]}
+          >
             All
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.filterButton, filter === "available" && styles.selectedButtonAvailable]}
+          style={[
+            styles.filterButton,
+            filter === "available" && styles.selectedButtonAll,
+          ]}
           onPress={() => toggleFilter("available")}
         >
-          <Text style={[styles.filterButtonText, filter === "available" && styles.selectedText]}>
+          <Text
+            style={[
+              styles.filterButtonText,
+              filter === "available" && styles.selectedText,
+            ]}
+          >
             Available
           </Text>
         </TouchableOpacity>
       </View>
+    </SafeAreaView>
 
       {/* Hotel list */}
       <FlatList
@@ -211,6 +228,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     padding: 20,
     marginVertical: 10,
+    marginHorizontal: "auto",
     borderRadius: 15,
     shadowColor: "#000",
     shadowOpacity: 0.1,
@@ -248,9 +266,8 @@ const styles = StyleSheet.create({
   },
   filterContainer: {
     flexDirection: "row",
-    marginVertical: 10,
-    justifyContent: "center",
-    width: "100%",
+    justifyContent: "space-around", 
+    alignItems: "center", 
   },
   filterButton: {
     width: "50%",
