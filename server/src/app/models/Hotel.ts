@@ -1,18 +1,28 @@
-const hotelSchema = new mongoose.Schema({
+import mongoose, { Document, Schema, Model } from 'mongoose';
+
+export interface IHotel extends Document {
+  name: string;
+  location: string;
+  price: number;
+}
+
+const hotelSchema: Schema<IHotel> = new mongoose.Schema(
+  {
     name: {
       type: String,
-      required: true
+      required: true,
     },
     location: {
       type: String,
-      required: true
+      required: true,
     },
     price: {
       type: Number,
-      required: true
+      required: true,
     },
+  },
+);
 
-  }, { timestamps: true });
-  
-  const Hotel = mongoose.model('Hotel', hotelSchema);
-  
+const Hotel: Model<IHotel> = mongoose.model<IHotel>('Hotel', hotelSchema);
+
+export default Hotel;
