@@ -147,7 +147,7 @@ export default function HotelListingPage() {
   return (
     <View style={styles.container}>
       {/* Filter buttons */}
-      <SafeAreaView style={styles.safeArea}>
+      <SafeAreaView>
       <View style={styles.filterContainer}>
         <TouchableOpacity
           style={[
