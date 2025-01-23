@@ -1,28 +1,29 @@
+import { format } from 'date-fns';
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-// Define the BookingCard props interface
 interface BookingCardProps {
   hotelName: string;
   location: string;
   bookedDate: string;
-  price: string; // Added price field
+  price: string;
 }
 
+
 const BookingCard: React.FC<BookingCardProps> = ({ hotelName, location, bookedDate, price }) => {
+    const formattedDate = format(new Date(bookedDate), 'EEE, MMM dd, yyyy');
   return (
     <View style={styles.card}>
       <View style={styles.cardContent}>
         <Text style={styles.hotelName}>{hotelName}</Text>
         <Text style={styles.location}>{location}</Text>
-        <Text style={styles.bookedDate}>Booked on: {bookedDate}</Text>
-        <Text style={styles.price}>Price: {price}</Text> {/* Price displayed without highlight */}
+        <Text style={styles.bookedDate}>Booked on: {formattedDate}</Text>
+        <Text style={styles.price}>Price: {price}</Text>
       </View>
     </View>
   );
 };
 
-// Styling with fixed size and no price highlight
 const styles = StyleSheet.create({
   card: {
     width: "100%",
