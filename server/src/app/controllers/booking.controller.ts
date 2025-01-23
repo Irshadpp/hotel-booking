@@ -43,7 +43,6 @@ export const fetchBookings = async (
 ) => {
   try {
     const bookingsData = await bookingService.findBookingsByUserId(req.user?.id!);
-    console.log(bookingsData);
     sendResponse(res, HttpStatusCode.OK, "Fetched Bookings successfully", {bookings:bookingsData});
   } catch (error) {
     console.log(error);
