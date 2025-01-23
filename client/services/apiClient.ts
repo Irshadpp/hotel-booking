@@ -12,8 +12,9 @@ const apiClient = axios.create({
 
 // Request interceptor to attach the access token to headers
 apiClient.interceptors.request.use(
-  (config) => {
-    const token = getAccessToken();
+  async (config) => {
+    const token = await getAccessToken();
+    console.log(token, "---------------------------")
     if (token) {
       config.headers!['Authorization'] = `Bearer ${token}`;
     }

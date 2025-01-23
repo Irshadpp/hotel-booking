@@ -1,3 +1,5 @@
+import { Hotel } from "@/constants/interfaces";
+import apiClient from "@/services/apiClient";
 import React, { useState, useEffect } from "react";
 import {
   View,
@@ -12,91 +14,44 @@ import {
 import { Calendar } from "react-native-calendars";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-// Mock data for hotels
-const mockHotels = [
-  {
-    id: 1,
-    name: "Hotel Alpha",
-    location: "Paris",
-    price: "$200/night",
-    availableDates: ["2025-02-01", "2025-02-02"],
-  },
-  {
-    id: 2,
-    name: "Hotel Beta",
-    location: "New York",
-    price: "$120/night",
-    availableDates: ["2025-02-10", "2025-02-12"],
-  },
-  {
-    id: 3,
-    name: "Hotel Gamma",
-    location: "Tokyo",
-    price: "$180/night",
-    availableDates: ["2025-03-01", "2025-03-05"],
-  },
-  {
-    id: 4,
-    name: "Hotel Delta",
-    location: "London",
-    price: "$150/night",
-    availableDates: ["2025-02-15", "2025-02-18"],
-  },
-  {
-    id: 5,
-    name: "Hotel Epsilon",
-    location: "Sydney",
-    price: "$220/night",
-    availableDates: [], 
-  },
-  {
-    id: 6,
-    name: "Hotel Zeta",
-    location: "Dubai",
-    price: "$300/night",
-    availableDates: ["2025-01-30", "2025-02-02"],
-  },
-  {
-    id: 7,
-    name: "Hotel Theta",
-    location: "Amsterdam",
-    price: "$160/night",
-    availableDates: ["2025-02-05", "2025-02-07"],
-  },
-];
-
-const itemsPerPage = 3; 
+const itemsPerPage = 3;
 
 export default function HotelListingPage() {
-  const [hotels, setHotels] = useState<any>([]);
+  const [hotels, setHotels] = useState<Hotel[]>([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [filter, setFilter] = useState("all"); 
+  const [filter, setFilter] = useState("all");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [startDate, setStartDate] = useState<string | null>(null);
   const [endDate, setEndDate] = useState<string | null>(null);
 
-  const fetchHotels = () => {
+  // Fetch hotels from API
+  const fetchHotels = async () => {
     setLoading(true);
-    setTimeout(() => {
-      const newHotels = mockHotels.slice(
-        (currentPage - 1) * itemsPerPage,
-        currentPage * itemsPerPage
-      );
-      setHotels((prevHotels: any) => [...prevHotels, ...newHotels]);
+    try {
+      const response = await apiClient.get(`/hotel`, {
+        params: { page: currentPage, limit: itemsPerPage },
+      });
+      const data = response.data;
+      if (data.success) {
+        setHotels((prevHotels) => [...prevHotels, ...data.hotels]);
+      } else {
+        console.error("Failed to fetch hotels:", data.message);
+      }
+    } catch (error) {
+      console.error("Error fetching hotels:", error);
+    } finally {
       setLoading(false);
-    }, 1000); // Simulate network delay
+    }
   };
 
-  // Filter hotels based on the selected dates and availability
   const filterHotels = () => {
     if (filter === "all") {
-      return mockHotels;
+      return hotels;
     }
 
-    // Filter based on available dates
-    return mockHotels.filter((hotel) => {
-      if (hotel.availableDates.length === 0) return false;
+    return hotels.filter((hotel) => {
+      if (!hotel.availableDates) return false;
       return hotel.availableDates.some(
         (date) => date >= startDate! && date <= endDate!
       );
@@ -107,37 +62,33 @@ export default function HotelListingPage() {
     fetchHotels();
   }, [currentPage]);
 
-  // Handle reaching the end of the list
   const handleEndReached = () => {
     if (!loading) {
       setCurrentPage((prevPage) => prevPage + 1);
     }
   };
 
-  // Handle filter change (All or Available)
   const toggleFilter = (filterType: string) => {
     setFilter(filterType);
     if (filterType === "available") {
-      setIsModalVisible(true); // Show the calendar modal for date selection
+      setIsModalVisible(true); 
     }
   };
 
-  // Handle date selection in the calendar
   const onDayPress = (day: any) => {
     if (!startDate) {
       setStartDate(day.dateString);
     } else {
       setEndDate(day.dateString);
-      setIsModalVisible(false); // Close the modal after selecting the end date
+      setIsModalVisible(false);
     }
   };
 
-  // Render each hotel item
-  const renderItem = ({ item }: any) => (
+  const renderItem = ({ item }: { item: Hotel }) => (
     <View key={item.id} style={styles.hotelCard}>
       <Text style={styles.hotelName}>{item.name}</Text>
       <Text style={styles.hotelLocation}>{item.location}</Text>
-      <Text style={styles.hotelPrice}>{item.price}</Text>
+      <Text style={styles.hotelPrice}>${item.price}/night</Text>
       <TouchableOpacity style={styles.bookButton}>
         <Text style={styles.bookButtonText}>Book Now</Text>
       </TouchableOpacity>
@@ -148,41 +99,41 @@ export default function HotelListingPage() {
     <View style={styles.container}>
       {/* Filter buttons */}
       <SafeAreaView>
-      <View style={styles.filterContainer}>
-        <TouchableOpacity
-          style={[
-            styles.filterButton,
-            filter === "all" && styles.selectedButtonAll,
-          ]}
-          onPress={() => toggleFilter("all")}
-        >
-          <Text
+        <View style={styles.filterContainer}>
+          <TouchableOpacity
             style={[
-              styles.filterButtonText,
-              filter === "all" && styles.selectedText,
+              styles.filterButton,
+              filter === "all" && styles.selectedButtonAll,
             ]}
+            onPress={() => toggleFilter("all")}
           >
-            All
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[
-            styles.filterButton,
-            filter === "available" && styles.selectedButtonAll,
-          ]}
-          onPress={() => toggleFilter("available")}
-        >
-          <Text
+            <Text
+              style={[
+                styles.filterButtonText,
+                filter === "all" && styles.selectedText,
+              ]}
+            >
+              All
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
             style={[
-              styles.filterButtonText,
-              filter === "available" && styles.selectedText,
+              styles.filterButton,
+              filter === "available" && styles.selectedButtonAll,
             ]}
+            onPress={() => toggleFilter("available")}
           >
-            Available
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+            <Text
+              style={[
+                styles.filterButtonText,
+                filter === "available" && styles.selectedText,
+              ]}
+            >
+              Available
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
 
       {/* Hotel list */}
       <FlatList
@@ -217,6 +168,7 @@ export default function HotelListingPage() {
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
