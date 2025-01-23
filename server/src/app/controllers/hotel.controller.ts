@@ -56,3 +56,38 @@ export const fetchAllHotels = async (
     next(error);
   }
 };
+
+export const fetchAvailableHotels = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { date, page = 1, limit = 3 } = req.query;
+
+  if (!date) {
+    throw new BadRequestError("Date is required")
+  }
+  const hotels = await hotelService.getAvailableHotelsByDate(
+    Number(page),
+    Number(limit),
+    date as string
+  );
+
+  if (hotels.length > 0) {
+    return sendResponse(
+      res,
+      HttpStatusCode.OK,
+      "Fetched available hotels successfully",
+       { hotels,
+        page: Number(page),
+        limit: Number(limit),}
+    );
+  } else {
+    return sendResponse(res, HttpStatusCode.NOT_FOUND, "No hotels found for the given date")
+  }
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
