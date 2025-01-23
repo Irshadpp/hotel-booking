@@ -1,11 +1,36 @@
+import BookingCard from '@/components/BookingCard';
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default function History() {
+  const bookingData = [
+    {
+      hotelName: 'Sunset Resort',
+      location: 'Miami Beach, FL',
+      bookedDate: '2025-01-15',
+      price: '$299 per night',
+    },
+    {
+      hotelName: 'Mountain Escape',
+      location: 'Aspen, CO',
+      bookedDate: '2025-01-18',
+      price: '$450 per night',
+    },
+  ];
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Booking History</Text>
-    </View>
+    <ScrollView style={{ padding: 16 }}>
+      {bookingData.map((booking, index) => (
+        <BookingCard
+          key={index}
+          hotelName={booking.hotelName}
+          location={booking.location}
+          bookedDate={booking.bookedDate}
+          price={booking.price}
+        />
+      ))}
+    </ScrollView>
   );
 }
 

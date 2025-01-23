@@ -1,9 +1,8 @@
 import CalendarModal from "@/components/CalendarModal";
 import HotelCard from "@/components/HotelCard";
-import { Hotel } from "@/constants/interfaces";
 import { useHotelListing } from "@/hooks/useHotelListing";
-import apiClient from "@/services/apiClient";
-import React, { useState, useEffect } from "react";
+import { bookHotel } from "@/services/apis";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -11,11 +10,7 @@ import {
   TouchableOpacity,
   FlatList,
   ActivityIndicator,
-  Modal,
-  Button,
-  Alert,
 } from "react-native";
-import { Calendar } from "react-native-calendars";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function HotelListingPage() {
@@ -29,18 +24,34 @@ export default function HotelListingPage() {
     loadAvailableHotels,
   } = useHotelListing();
 
+  const [selectedHotelId, setSelectedHotelId] = useState<string | null>(null); 
+  const [isBookingFlow, setIsBookingFlow] = useState<boolean>(false); 
+
   const toggleFilter = (filterType: string) => {
     setFilter(filterType);
     if (filterType === "available") {
-      setIsModalVisible(true); // Show the calendar modal for date selection
+      setIsBookingFlow(false)
+      setIsModalVisible(true); 
     } else {
-      loadAvailableHotels(""); // Fetch all hotels when 'All' is selected
+      loadAvailableHotels(""); 
     }
   };
 
-  const onDayPress = (day: any) => {
+  const onDayPress = async (day: any) => {
     setIsModalVisible(false);
-    loadAvailableHotels(day.dateString);
+
+    if (isBookingFlow && selectedHotelId) {
+      console.log("hellooooooo", selectedHotelId, day.dateString);
+      await bookHotel(selectedHotelId, day.dateString);
+    } else {
+      await loadAvailableHotels(day.dateString);
+    }
+  };
+
+  const handleBookNow = (hotelId: string) => {
+    setSelectedHotelId(hotelId);
+    setIsBookingFlow(true);
+    setIsModalVisible(true);
   };
 
   return (
@@ -84,7 +95,7 @@ export default function HotelListingPage() {
 
       <FlatList
         data={hotels}
-        renderItem={({ item }) => <HotelCard hotel={item} />}
+        renderItem={({ item }) => <HotelCard hotel={item}  handleBookNow={handleBookNow} />}
         keyExtractor={(item) => item.id.toString()}
         ListFooterComponent={loading ? <ActivityIndicator size="large" color="#5fa35f" /> : null}
       />
@@ -97,14 +108,6 @@ export default function HotelListingPage() {
     </View>
   );
 }
-
-// const styles = StyleSheet.create({
-//   container: { flex: 1 },
-//   filterContainer: { flexDirection: "row", justifyContent: "space-around" },
-//   filterButton: { padding: 10, borderWidth: 1, borderColor: "#5fa35f" },
-//   selectedButton: { backgroundColor: "#5fa35f" },
-//   filterButtonText: { color: "#fff" },
-// });
 
 const styles = StyleSheet.create({
   container: {

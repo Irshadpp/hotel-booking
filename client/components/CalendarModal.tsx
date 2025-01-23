@@ -5,18 +5,23 @@ import { Calendar } from "react-native-calendars";
 export default function CalendarModal({
   visible,
   onDayPress,
-  onClose,
 }: {
   visible: boolean;
   onDayPress: (day: any) => void;
   onClose: () => void;
 }) {
+  const today = new Date().toISOString().split("T")[0];
   return (
     <Modal visible={visible} animationType="slide" transparent={true}>
       <View style={styles.modalBackground}>
         <View style={styles.modalContent}>
           <Text style={styles.modalTitle}>Select Date</Text>
-          <Calendar onDayPress={onDayPress} monthFormat={"yyyy MM"} hideExtraDays={true} />
+          <Calendar
+            onDayPress={onDayPress}
+            monthFormat={"yyyy MM"}
+            hideExtraDays={true}
+            minDate={today}
+          />
         </View>
       </View>
     </Modal>
@@ -24,21 +29,21 @@ export default function CalendarModal({
 }
 
 const styles = StyleSheet.create({
-    modalBackground: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "rgba(0, 0, 0, 0.5)",
-      },
-      modalContent: {
-        backgroundColor: "#fff",
-        padding: 20,
-        borderRadius: 10,
-        width: "80%",
-      },
-      modalTitle: {
-        fontSize: 18,
-        fontWeight: "bold",
-        marginBottom: 10,
-      },
+  modalBackground: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    backgroundColor: "#fff",
+    padding: 20,
+    borderRadius: 10,
+    width: "80%",
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
 });
