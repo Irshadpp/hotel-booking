@@ -10,6 +10,8 @@ const apiClient = axios.create({
   },
 });
 
+
+
 // Request interceptor to attach the access token to headers
 apiClient.interceptors.request.use(
   async (config) => {

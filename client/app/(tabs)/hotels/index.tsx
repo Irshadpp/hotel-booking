@@ -26,6 +26,7 @@ export default function HotelListingPage() {
 
   const [selectedHotelId, setSelectedHotelId] = useState<string | null>(null); 
   const [isBookingFlow, setIsBookingFlow] = useState<boolean>(false); 
+  const [errorMessage, setErrorMessage] = useState<string | null>(null); 
 
   const toggleFilter = (filterType: string) => {
     setFilter(filterType);
@@ -39,10 +40,18 @@ export default function HotelListingPage() {
 
   const onDayPress = async (day: any) => {
     setIsModalVisible(false);
+    setErrorMessage(null);
 
     if (isBookingFlow && selectedHotelId) {
-      console.log("hellooooooo", selectedHotelId, day.dateString);
-      await bookHotel(selectedHotelId, day.dateString);
+      try {
+        const data = await bookHotel(selectedHotelId, day.dateString);
+        console.log("Booking successful:", data);
+      } catch (error: any) {
+        const message =
+          error.response?.data?.errors?.message || "Failed to book the hotel.";
+        setErrorMessage(message);
+      }
+
     } else {
       await loadAvailableHotels(day.dateString);
     }
@@ -92,6 +101,11 @@ export default function HotelListingPage() {
           </TouchableOpacity>
         </View>
       </SafeAreaView>
+      {errorMessage && (
+        <View style={styles.errorContainer}>
+          <Text style={styles.errorText}>{errorMessage}</Text>
+        </View>
+      )}
 
       <FlatList
         data={hotels}
@@ -139,5 +153,16 @@ const styles = StyleSheet.create({
   },
   selectedText: {
     color: "#fff",
+  },
+  errorContainer: {
+    backgroundColor: "#ffe6e6",
+    padding: 10,
+    margin: 10,
+    borderRadius: 5,
+  },
+  errorText: {
+    color: "#d9534f",
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });
