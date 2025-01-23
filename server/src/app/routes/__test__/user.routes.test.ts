@@ -48,7 +48,6 @@ describe("POST /api/v1/user/create", () => {
 
 
   ////////////////////// login testing ///////////////////////
-
   describe("POST /api/v1/user/login", () => {
     beforeEach(async () => {
       await User.deleteMany({});

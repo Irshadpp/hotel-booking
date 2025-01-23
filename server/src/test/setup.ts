@@ -42,14 +42,12 @@ afterAll(async () => {
   await mongo.stop();
 });
 
-// export const login = (): string[] => {
-
-//   const accessToken = jwt.sign(testUser, process.env.JWT_ACCESS_SECRET!, { expiresIn: "30m" });
-
-//   // Return the tokens as cookies
-//   const accessTokenCookie = `accessToken=${accessToken}; Path=/; HttpOnly`;
-
-//   // Return both cookies in an array
-//   return [accessTokenCookie, refreshTokenCookie];
-// };
+export const login = async (): Promise<string> => {
+    const userPayload = testUser
+    
+    const secret = process.env.JWT_ACCESS_SECRET || "abcdefg";
+    const token = jwt.sign(userPayload, secret, { expiresIn: "1h" });
+  
+    return token;
+  };
 
