@@ -22,7 +22,7 @@
   "dependencies": {
     "@types/cors": "^2.8.17",
     "@types/morgan": "^1.9.9",
-    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
@@ -33,13 +33,14 @@
     "mongoose": "^8.9.5"
   },
   "devDependencies": {
-    "@types/bcrypt": "^5.0.2",
+    "@types/bcryptjs": "^2.4.6",
     "@types/cookie-parser": "^1.4.8",
     "@types/dotenv": "^8.2.3",
     "@types/express": "^5.0.0",
     "@types/jest": "^29.5.14",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/node": "^22.10.5",
+    "@types/react-native": "^0.73.0",
     "@types/supertest": "^6.0.2",
     "mongodb-memory-server": "^10.1.2",
     "nodemon": "^3.1.9",
