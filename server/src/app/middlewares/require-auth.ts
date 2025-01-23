@@ -18,7 +18,6 @@ export const requireAuth = async (req: Request, res: Response, next: NextFunctio
 
     const token = authHeader.split(" ")[1];
         const secret = process.env.JWT_ACCESS_SECRET as string;
-        console.log(token)
 
         if (!secret) {
             return next(new Error("Can't access JWT_ACCESS_SECRET in requireAuth"));

@@ -94,7 +94,6 @@ export const newToken = async (
 ) => {
   try {
     const refreshToken = req.headers.authorization?.split(" ")[1];
-    console.log(refreshToken)
     if (!refreshToken) {
       throw new NotAuthorizedError();
     }

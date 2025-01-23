@@ -21,12 +21,9 @@ export class HotelService implements IHotelService {
     }
   }
 
-  async findHotels(page: number, limit: number): Promise<IHotel[]> {
+  async findHotels(): Promise<IHotel[]> {
     try {
-      const skip = (page - 1) * limit;
       const hotels = await Hotel.find()
-        .skip(skip)
-        .limit(limit);
       return hotels;
     } catch (error: any) {
       throw new Error(`Error finding hotels: ${error.message}`);
@@ -34,8 +31,6 @@ export class HotelService implements IHotelService {
   }
 
   async getAvailableHotelsByDate(
-    page: number,
-    limit: number,
     date: string
   ): Promise<IHotel[]> {
     const targetDate = new Date(date);
@@ -58,12 +53,6 @@ export class HotelService implements IHotelService {
       },
       {
         $match: { isBookedOnDate: { $eq: false } }, 
-      },
-      {
-        $skip: (page - 1) * limit,
-      },
-      {
-        $limit: limit,
       },
       {
         $project: {

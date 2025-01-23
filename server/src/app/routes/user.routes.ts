@@ -8,6 +8,6 @@ const router: Router = express.Router();
 
 router.post("/create", createUserValidator, validateRequest, createUser);
 router.post("/login", loginUserValidator, validateRequest, loginUser);
-router.get("/new-token", newToken);
+router.post("/new-token", newToken);
 
 export { router as userRouter };
