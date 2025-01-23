@@ -31,7 +31,17 @@ const bookingSchema: Schema<IBooking> = new mongoose.Schema(
       default: 'Booked',
     },
   },
-  { timestamps: true } 
+  {
+    timestamps: true,
+    toJSON: {
+      virtuals: true,
+      transform(doc, ret) {
+        ret.id = ret._id;
+        delete ret._id;
+        delete ret.__v;
+      },
+    },
+  }
 );
 
 const Booking: Model<IBooking> = mongoose.model<IBooking>('Booking', bookingSchema);
