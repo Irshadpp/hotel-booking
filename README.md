@@ -84,3 +84,13 @@ Look for a tunnel URL (e.g., https://xyz.exp.direct) in the logs.
 Open this URL in:
 Your browser to run the web version.
 The Expo Go app on your mobile device for testing.
+
+You can use these user credentials to test the functionalities:
+
+User 1
+email: user@gmail.com
+password: User@123
+
+User 2
+email: example@gmail.com
+password: User@123
