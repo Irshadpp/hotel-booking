@@ -10,7 +10,7 @@ export const generateJwtAccessToken = (payload: JWTUserPayload, secret: string) 
         payload,
         secret,
         {
-            expiresIn:"15m"
+            expiresIn:"3h"
         }
     )
 }
