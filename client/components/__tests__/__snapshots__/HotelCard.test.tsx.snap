@@ -1,0 +1,113 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HotelCard Component matches the snapshot 1`] = `
+<View
+  style={
+    {
+      "backgroundColor": "#fff",
+      "borderRadius": 15,
+      "elevation": 10,
+      "marginHorizontal": "auto",
+      "marginVertical": 10,
+      "maxWidth": 350,
+      "padding": 20,
+      "shadowColor": "#000",
+      "shadowOffset": {
+        "height": 5,
+        "width": 0,
+      },
+      "shadowOpacity": 0.1,
+      "shadowRadius": 10,
+      "width": "100%",
+    }
+  }
+>
+  <Text
+    style={
+      {
+        "color": "#333",
+        "fontSize": 22,
+        "fontWeight": "bold",
+        "marginBottom": 5,
+      }
+    }
+  >
+    Grand Hotel
+  </Text>
+  <Text
+    style={
+      {
+        "color": "#555",
+        "fontSize": 16,
+        "marginBottom": 10,
+      }
+    }
+  >
+    New York, USA
+  </Text>
+  <Text
+    style={
+      {
+        "color": "#5fa35f",
+        "fontSize": 18,
+        "fontWeight": "bold",
+        "marginBottom": 20,
+      }
+    }
+  >
+    ₹
+    5000
+    /day
+  </Text>
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "alignItems": "center",
+        "backgroundColor": "#5fa35f",
+        "borderRadius": 10,
+        "opacity": 1,
+        "paddingVertical": 10,
+      }
+    }
+  >
+    <Text
+      style={
+        {
+          "color": "#fff",
+          "fontSize": 16,
+          "fontWeight": "bold",
+        }
+      }
+    >
+      Book Now
+    </Text>
+  </View>
+</View>
+`;

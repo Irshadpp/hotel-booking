@@ -17,6 +17,7 @@ export default function CalendarModal({
         <View style={styles.modalContent}>
           <Text style={styles.modalTitle}>Select Date</Text>
           <Calendar
+            testID="calendar"
             onDayPress={onDayPress}
             monthFormat={"yyyy MM"}
             hideExtraDays={true}
