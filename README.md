@@ -68,21 +68,16 @@ docker-compose up --build
 
 This will:
 Build and start the backend (Node.js) service on port 4000.
-Build and start the frontend (React Native with Expo) service on ports 19006, 19001, and 19002.
+Build and start the frontend (React Native with Expo) service on port 8081.
 
 ### Step 2: Access the Application
 
 Backend API
 The backend server will be available at: http://localhost:4000.
 React Native Frontend
-Check the logs of the react_native service to get the Expo tunnel URL:
-
-```bash
-docker-compose logs -f react_native
-```
-Look for a tunnel URL (e.g., https://xyz.exp.direct) in the logs.
+Look for a the URL (e.g., http://localhost:8081) in the logs. 
 Open this URL in:
-Your browser to run the web version.
+Your browser to run the web version (Please wait for a few time, it will take a little to load the application initially).
 The Expo Go app on your mobile device for testing.
 
 You can use these user credentials to test the functionalities:
